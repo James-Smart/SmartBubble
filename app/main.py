@@ -41,6 +41,12 @@ async def landing(request: Request) -> HTMLResponse:
     )
 
 
+# Registered before the catch-all /{session_id} route so it is matched first.
+@app.get("/health")
+async def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 @app.post("/api/sessions/{session_id}/messages", response_model=Message)
 async def send_message(session_id: str, payload: InboundMessage) -> Message:
     return await store.add_to_phone(session_id, payload.body, payload.from_)

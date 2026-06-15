@@ -1,0 +1,15 @@
+.git
+.gitignore
+.venv
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+.python-version
