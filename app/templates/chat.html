@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="ios">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ session_id }} — SmartBubble</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/ios.css">
+  <link rel="stylesheet" href="/static/css/android.css">
+</head>
+<body>
+  <div class="page">
+    <div class="phone" id="phone">
+      <div class="phone-notch ios-only"></div>
+      <header class="phone-header">
+        <div class="phone-status android-only">
+          <span class="status-time">12:00</span>
+          <span class="status-icons">●●●</span>
+        </div>
+        <div class="header-main">
+          <div class="header-contact">
+            <span class="contact-avatar">📱</span>
+            <div class="contact-info">
+              <span class="contact-name">Messages</span>
+              <span class="contact-sub ios-only">SMS</span>
+              <span class="contact-sub android-only">Texting with {{ session_id }}</span>
+            </div>
+          </div>
+          <div class="theme-toggle" role="group" aria-label="Theme">
+            <button type="button" class="theme-btn active" data-theme="ios">iOS</button>
+            <button type="button" class="theme-btn" data-theme="android">Android</button>
+          </div>
+        </div>
+        <p class="session-label">Session: <code>{{ session_id }}</code></p>
+      </header>
+
+      <div
+        id="messages"
+        class="messages"
+        hx-get="/{{ session_id }}/stream"
+        hx-trigger="load, every 1.5s"
+        hx-swap="outerHTML"
+      >
+        {% include "_messages.html" %}
+      </div>
+
+      <footer class="phone-footer">
+        <form
+          class="reply-form"
+          hx-post="/{{ session_id }}/reply"
+          hx-target="#messages"
+          hx-swap="outerHTML"
+          hx-on::after-request="if(event.detail.successful) this.reset()"
+        >
+          <input type="text" name="body" placeholder="Text message…" autocomplete="off" required>
+          <button type="submit" aria-label="Send">↑</button>
+        </form>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

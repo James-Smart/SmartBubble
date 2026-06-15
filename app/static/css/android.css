@@ -1,0 +1,94 @@
+html[data-theme="android"] body {
+  background: #121212;
+}
+
+html[data-theme="android"] .phone {
+  background: #fef7ff;
+  color: #1c1b1f;
+  font-family: Roboto, "Segoe UI", system-ui, sans-serif;
+  border-radius: 28px;
+}
+
+html[data-theme="android"] .phone-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  padding: 0.25rem 0;
+  color: #49454f;
+}
+
+html[data-theme="android"] .phone-header {
+  background: #fef7ff;
+  border-bottom: 1px solid #e7e0ec;
+  padding-top: 0.5rem;
+}
+
+html[data-theme="android"] .theme-toggle {
+  background: #e7e0ec;
+}
+
+html[data-theme="android"] .theme-btn {
+  color: #49454f;
+}
+
+html[data-theme="android"] .theme-btn.active {
+  background: #6750a4;
+  color: #fff;
+}
+
+html[data-theme="android"] .session-label {
+  color: #49454f;
+}
+
+html[data-theme="android"] .messages {
+  background: #f3edf7;
+}
+
+html[data-theme="android"] .messages-empty {
+  color: #49454f;
+}
+
+html[data-theme="android"] .bubble-row.incoming .bubble {
+  background: #e7e0ec;
+  color: #1c1b1f;
+  border-radius: 4px 18px 18px 18px;
+  padding: 0.5rem 0.85rem;
+}
+
+html[data-theme="android"] .bubble-row.outgoing .bubble {
+  background: #6750a4;
+  color: #fff;
+  border-radius: 18px 4px 18px 18px;
+  padding: 0.5rem 0.85rem;
+}
+
+html[data-theme="android"] .bubble-row.outgoing .bubble-time {
+  text-align: right;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+html[data-theme="android"] .bubble-sender {
+  color: #6750a4;
+}
+
+html[data-theme="android"] .phone-footer {
+  background: #fef7ff;
+  border-top: 1px solid #e7e0ec;
+}
+
+html[data-theme="android"] .reply-form input {
+  background: #f3edf7;
+  color: #1c1b1f;
+  border: 1px solid #cac4d0;
+  border-radius: 24px;
+}
+
+html[data-theme="android"] .reply-form input::placeholder {
+  color: #79747e;
+}
+
+html[data-theme="android"] .reply-form button {
+  background: #6750a4;
+  color: #fff;
+}

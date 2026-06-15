@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBubble</title>
+  <link rel="stylesheet" href="/static/css/base.css">
+</head>
+<body class="landing">
+  <main class="landing-card">
+    <h1>SmartBubble</h1>
+    <p>SMS integration demo for Solution Engineers.</p>
+    <p>Open any path to start your own session — no login required:</p>
+    <p class="landing-example"><code>/your-demo-name</code></p>
+    <form class="landing-form" action="#" onsubmit="goToSession(event)">
+      <input type="text" id="session-input" placeholder="e.g. acme-demo" required>
+      <button type="submit">Open phone</button>
+    </form>
+  </main>
+  <script>
+    function goToSession(e) {
+      e.preventDefault();
+      const id = document.getElementById('session-input').value.trim();
+      if (id) window.location.href = '/' + encodeURIComponent(id);
+    }
+  </script>
+</body>
+</html>

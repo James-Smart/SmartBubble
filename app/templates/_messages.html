@@ -1,0 +1,25 @@
+<div
+  id="messages"
+  class="messages"
+  hx-get="/{{ session_id }}/stream"
+  hx-trigger="load, every 1.5s"
+  hx-swap="outerHTML"
+>
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="bubble-row {{ 'incoming' if msg.direction == 'to_phone' else 'outgoing' }}">
+        <div class="bubble">
+          {% if msg.direction == 'to_phone' and msg.from_ %}
+            <span class="bubble-sender">{{ msg.from_ }}</span>
+          {% endif %}
+          <p class="bubble-body">{{ msg.body }}</p>
+          <time class="bubble-time" datetime="{{ msg.created_at.isoformat() }}">
+            {{ msg.created_at.strftime('%H:%M') }}
+          </time>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="messages-empty">No messages yet. Send one via the API or type a reply below.</p>
+  {% endif %}
+</div>

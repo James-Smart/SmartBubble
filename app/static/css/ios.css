@@ -1,0 +1,79 @@
+html[data-theme="ios"] body {
+  background: #1c1c1e;
+}
+
+html[data-theme="ios"] .phone {
+  background: #000;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+}
+
+html[data-theme="ios"] .phone-notch {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 28px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+html[data-theme="ios"] .phone-header {
+  padding-top: 2.5rem;
+  background: #1c1c1e;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="ios"] .theme-toggle {
+  background: rgba(118, 118, 128, 0.24);
+}
+
+html[data-theme="ios"] .theme-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme="ios"] .messages {
+  background: #000;
+}
+
+html[data-theme="ios"] .bubble-row.incoming .bubble {
+  background: #3a3a3c;
+  color: #fff;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  padding: 0.5rem 0.75rem;
+}
+
+html[data-theme="ios"] .bubble-row.outgoing .bubble {
+  background: #0a84ff;
+  color: #fff;
+  border-radius: 18px;
+  border-bottom-right-radius: 4px;
+  padding: 0.5rem 0.75rem;
+}
+
+html[data-theme="ios"] .bubble-row.outgoing .bubble-time {
+  text-align: right;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+html[data-theme="ios"] .phone-footer {
+  background: #1c1c1e;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="ios"] .reply-form input {
+  background: #2c2c2e;
+  color: #fff;
+}
+
+html[data-theme="ios"] .reply-form input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+html[data-theme="ios"] .reply-form button {
+  background: #0a84ff;
+  color: #fff;
+}

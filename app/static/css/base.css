@@ -1,0 +1,296 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #0f1115;
+  color: #e8eaed;
+}
+
+.landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.landing-card {
+  max-width: 28rem;
+  padding: 2rem;
+  background: #1a1d24;
+  border-radius: 12px;
+  border: 1px solid #2a2f3a;
+}
+
+.landing-card h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+.landing-card p {
+  margin: 0.5rem 0;
+  color: #9aa0a6;
+  line-height: 1.5;
+}
+
+.landing-example code {
+  background: #252830;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: #8ab4f8;
+}
+
+.landing-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.landing-form input {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #3c4043;
+  border-radius: 8px;
+  background: #252830;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.landing-form button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #8ab4f8;
+  color: #0f1115;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.phone {
+  width: min(390px, 100vw - 2rem);
+  height: min(780px, 92vh);
+  display: flex;
+  flex-direction: column;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.5),
+    0 0 0 2px rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+
+.phone-header {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem 0.5rem;
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.header-contact {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.contact-avatar {
+  font-size: 1.5rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.contact-name {
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-sub {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.session-label {
+  margin: 0.35rem 0 0;
+  font-size: 0.7rem;
+  opacity: 0.55;
+}
+
+.session-label code {
+  font-size: 0.7rem;
+}
+
+.theme-toggle {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.theme-btn {
+  padding: 0.35rem 0.6rem;
+  border: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(128, 128, 128, 0.25);
+  color: inherit;
+  opacity: 0.7;
+}
+
+.theme-btn.active {
+  opacity: 1;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.messages-empty {
+  margin: auto;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.5;
+  max-width: 16rem;
+}
+
+.bubble-row {
+  display: flex;
+  width: 100%;
+}
+
+.bubble-row.incoming {
+  justify-content: flex-start;
+}
+
+.bubble-row.outgoing {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 78%;
+  position: relative;
+}
+
+.bubble-sender {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+  opacity: 0.85;
+}
+
+.bubble-body {
+  margin: 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.bubble-time {
+  display: block;
+  font-size: 0.65rem;
+  margin-top: 0.2rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.bubble:hover .bubble-time {
+  opacity: 0.65;
+}
+
+.phone-footer {
+  flex-shrink: 0;
+  padding: 0.5rem 0.75rem 1rem;
+}
+
+.reply-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reply-form input {
+  flex: 1;
+  padding: 0.55rem 0.85rem;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.reply-form button {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Theme visibility helpers */
+.ios-only {
+  display: none;
+}
+
+.android-only {
+  display: none;
+}
+
+html[data-theme="ios"] .ios-only {
+  display: block;
+}
+
+html[data-theme="ios"] span.ios-only,
+html[data-theme="ios"] .contact-sub.ios-only {
+  display: inline;
+}
+
+html[data-theme="android"] .android-only {
+  display: block;
+}
+
+html[data-theme="android"] span.android-only,
+html[data-theme="android"] .contact-sub.android-only {
+  display: inline;
+}
+
+html[data-theme="android"] .phone-status.android-only {
+  display: flex;
+}
