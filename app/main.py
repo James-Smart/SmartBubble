@@ -78,6 +78,17 @@ async def chat_stream(request: Request, session_id: str) -> HTMLResponse:
     )
 
 
+@app.post("/{session_id}/clear", response_class=HTMLResponse)
+async def chat_clear(request: Request, session_id: str) -> HTMLResponse:
+    await store.clear(session_id)
+    messages = await store.list_all(session_id)
+    return templates.TemplateResponse(
+        request,
+        "_messages.html",
+        _messages_context(session_id, messages),
+    )
+
+
 @app.post("/{session_id}/reply", response_class=HTMLResponse)
 async def chat_reply(
     request: Request,

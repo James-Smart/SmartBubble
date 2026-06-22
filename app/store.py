@@ -53,6 +53,13 @@ class SessionStore:
             session.messages.append(message)
             return message
 
+    async def clear(self, session_id: str) -> None:
+        session = await self.get_or_create(session_id)
+        async with session.lock:
+            session.messages.clear()
+            # next_id is left untouched so any active poller's `since` cursor
+            # stays valid; new messages keep counting up instead of reusing ids.
+
     async def list_all(self, session_id: str) -> list[Message]:
         session = await self.get_or_create(session_id)
         async with session.lock:

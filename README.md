@@ -24,8 +24,11 @@ No login. The path segment is the session id, e.g. `/alice` and `/bob` are isola
 - **GET /** — landing page
 - **GET /{session_id}** — chat UI with HTMX polling every 1.5s
 - **POST /{session_id}/reply** — form field `body` simulates the user replying on the phone
+- **POST /{session_id}/clear** — empties this session's conversation (backs the header **Clear** button)
 
 Toggle **iOS** / **Android** in the header; the choice is stored in `localStorage`.
+
+Use the **Clear** button in the header to wipe the current session's messages mid-demo (it asks for confirmation first). It only affects the session you're viewing; other sessions are untouched. Message ids keep counting up, so any integration mid-poll on `/replies` stays in sync.
 
 ## JSON API
 

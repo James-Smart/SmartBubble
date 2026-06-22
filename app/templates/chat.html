@@ -32,7 +32,17 @@
             <button type="button" class="theme-btn" data-theme="android">Android</button>
           </div>
         </div>
-        <p class="session-label">Session: <code>{{ session_id }}</code></p>
+        <div class="session-row">
+          <p class="session-label">Session: <code>{{ session_id }}</code></p>
+          <button
+            type="button"
+            class="clear-btn"
+            hx-post="/{{ session_id }}/clear"
+            hx-target="#messages"
+            hx-swap="outerHTML"
+            hx-confirm="Clear this conversation?"
+          >Clear</button>
+        </div>
       </header>
 
       <div
