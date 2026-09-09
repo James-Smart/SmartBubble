@@ -77,3 +77,8 @@ html[data-theme="ios"] .reply-form button {
   background: #0a84ff;
   color: #fff;
 }
+
+html[data-theme="ios"] .perm-dialog {
+  border-radius: 14px;
+  text-align: center;
+}

@@ -102,6 +102,35 @@
           <button type="submit" class="primary-btn">Save</button>
         </form>
       </div>
+
+      <div class="browser" id="browser">
+        <div class="browser-chrome">
+          <button type="button" class="browser-done" id="browser-done">Done</button>
+          <span class="browser-url"><span aria-hidden="true">🔒</span> <span id="browser-host"></span></span>
+          <span class="browser-reload" aria-hidden="true">↻</span>
+        </div>
+        <div class="browser-content" id="browser-content"></div>
+
+        <div class="perm-backdrop" id="perm-backdrop">
+          <div class="perm-dialog">
+            <div class="ios-only">
+              <p class="perm-title">“<span class="perm-host"></span>” Would Like To Use Your Current Location</p>
+              <p class="perm-body">Your location is used to send a patrol to you.</p>
+              <div class="perm-actions">
+                <button type="button" class="perm-deny">Don't Allow</button>
+                <button type="button" class="perm-allow">Allow</button>
+              </div>
+            </div>
+            <div class="android-only">
+              <p class="perm-title">Allow <span class="perm-host"></span> to access this device's location?</p>
+              <div class="perm-actions">
+                <button type="button" class="perm-deny">Don't allow</button>
+                <button type="button" class="perm-allow">While using the app</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <script type="module" src="/static/js/app.js"></script>

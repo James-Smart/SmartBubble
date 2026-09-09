@@ -92,3 +92,30 @@ html[data-theme="android"] .reply-form button {
   background: #6750a4;
   color: #fff;
 }
+
+html[data-theme="android"] .perm-backdrop.open {
+  align-items: flex-end;
+}
+
+html[data-theme="android"] .perm-dialog {
+  max-width: none;
+  margin: 0;
+  border-radius: 28px;
+  text-align: left;
+  background: #1f2126;
+  color: #e8eaed;
+}
+
+html[data-theme="android"] .perm-actions {
+  justify-content: flex-end;
+}
+
+html[data-theme="android"] .perm-actions button {
+  flex: 0 0 auto;
+  background: none;
+  color: #a8c7fa;
+}
+
+html[data-theme="android"] .browser-done {
+  color: #1a73e8;
+}
