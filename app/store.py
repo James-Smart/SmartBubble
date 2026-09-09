@@ -2,13 +2,14 @@ import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
-from app.models import Message
+from app.models import LocationReport, LocationState, Message
 
 
 @dataclass
 class Session:
     messages: list[Message] = field(default_factory=list)
     next_id: int = 1
+    location: LocationState | None = None
     lock: asyncio.Lock = field(default_factory=asyncio.Lock)
 
 
@@ -57,6 +58,7 @@ class SessionStore:
         session = await self.get_or_create(session_id)
         async with session.lock:
             session.messages.clear()
+            session.location = None
             # next_id is left untouched so any active poller's `since` cursor
             # stays valid; new messages keep counting up instead of reusing ids.
 
@@ -77,6 +79,28 @@ class SessionStore:
             ]
             next_cursor = max((m.id for m in session.messages), default=since)
             return replies, next_cursor
+
+    async def set_location(
+        self, session_id: str, report: LocationReport
+    ) -> LocationState:
+        session = await self.get_or_create(session_id)
+        granted = report.status == "granted"
+        async with session.lock:
+            session.location = LocationState(
+                status=report.status,
+                # A denial never carries coordinates, whatever the client sent.
+                latitude=report.latitude if granted else None,
+                longitude=report.longitude if granted else None,
+                accuracy_m=report.accuracy_m if granted else None,
+                label=report.label if granted else None,
+                shared_at=datetime.now(timezone.utc),
+            )
+            return session.location
+
+    async def get_location(self, session_id: str) -> LocationState:
+        session = await self.get_or_create(session_id)
+        async with session.lock:
+            return session.location or LocationState(status="none")
 
 
 store = SessionStore()
