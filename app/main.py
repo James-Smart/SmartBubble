@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.models import InboundMessage, Message, RepliesResponse
+from app.models import InboundMessage, LocationReport, LocationState, Message, RepliesResponse
 from app.store import store
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -58,6 +58,15 @@ async def get_replies(session_id: str, since: int = 0) -> RepliesResponse:
     return RepliesResponse(messages=replies, next_cursor=next_cursor)
 
 
+@app.get(
+    "/api/sessions/{session_id}/location",
+    response_model=LocationState,
+    response_model_exclude_none=True,
+)
+async def get_location(session_id: str) -> LocationState:
+    return await store.get_location(session_id)
+
+
 @app.get("/{session_id}", response_class=HTMLResponse)
 async def chat_page(request: Request, session_id: str) -> HTMLResponse:
     messages = await store.list_all(session_id)
@@ -87,6 +96,15 @@ async def chat_clear(request: Request, session_id: str) -> HTMLResponse:
         "_messages.html",
         _messages_context(session_id, messages),
     )
+
+
+@app.post(
+    "/{session_id}/location",
+    response_model=LocationState,
+    response_model_exclude_none=True,
+)
+async def report_location(session_id: str, payload: LocationReport) -> LocationState:
+    return await store.set_location(session_id, payload)
 
 
 @app.post("/{session_id}/reply", response_class=HTMLResponse)
