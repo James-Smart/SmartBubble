@@ -39,6 +39,10 @@ function hidePermission(answer) {
 }
 
 export function askPermission() {
+  if (state.resolve) {
+    // A previous prompt is still pending; don't orphan its promise.
+    hidePermission(false);
+  }
   document.getElementById("perm-backdrop").classList.add("open");
   return new Promise((resolve) => {
     state.resolve = resolve;
