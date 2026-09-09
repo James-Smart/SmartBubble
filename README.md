@@ -70,7 +70,7 @@ Response:
       "direction": "from_phone",
       "body": "Thanks!",
       "from": null,
-      "created_at": "2026-06-04T10:00:00+00:00"
+      "created_at": "2026-09-09T10:13:07.375826Z"
     }
   ],
   "next_cursor": 2
@@ -112,11 +112,11 @@ Always returns 200, in one of three shapes:
 ```
 ```json
 {"status": "granted", "latitude": 51.4816, "longitude": -2.5885,
- "accuracy_m": 12, "label": "M32 J2, Bristol",
- "shared_at": "2026-09-09T10:04:11+00:00"}
+ "accuracy_m": 12.0, "label": "M32 J2, Bristol",
+ "shared_at": "2026-09-09T10:10:09.308545Z"}
 ```
 ```json
-{"status": "denied", "shared_at": "2026-09-09T10:04:11+00:00"}
+{"status": "denied", "shared_at": "2026-09-09T10:10:09.319847Z"}
 ```
 
 Only the latest share is kept, and the **Clear** button resets it to `none`.
