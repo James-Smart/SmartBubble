@@ -6,11 +6,13 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from app.linkify import linkify
 from app.models import InboundMessage, LocationReport, LocationState, Message, RepliesResponse
 from app.store import store
 
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
+templates.env.filters["linkify"] = linkify
 
 app = FastAPI(title="SmartBubble", description="SMS demo for Solution Engineers")
 

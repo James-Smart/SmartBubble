@@ -12,7 +12,7 @@
           {% if msg.direction == 'to_phone' and msg.from_ %}
             <span class="bubble-sender">{{ msg.from_ }}</span>
           {% endif %}
-          <p class="bubble-body">{{ msg.body }}</p>
+          <p class="bubble-body">{{ msg.body | linkify }}</p>
           <time class="bubble-time" datetime="{{ msg.created_at.isoformat() }}">
             {{ msg.created_at.strftime('%H:%M') }}
           </time>
