@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/static/css/ios.css">
   <link rel="stylesheet" href="/static/css/android.css">
 </head>
-<body>
+<body data-session-id="{{ session_id }}">
   <div class="page">
     <div class="phone" id="phone">
       <div class="phone-notch ios-only"></div>
@@ -69,6 +69,6 @@
       </footer>
     </div>
   </div>
-  <script src="/static/js/app.js"></script>
+  <script type="module" src="/static/js/app.js"></script>
 </body>
 </html>
