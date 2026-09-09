@@ -122,6 +122,15 @@ Always returns 200, in one of three shapes:
 Only the latest share is kept, and the **Clear** button resets it to `none`.
 The `/replies` stream is unaffected — a shared location never appears there.
 
+Dismissing the permission prompt with **Done** or **Escape** records a
+**denial**, the same as tapping "Don't allow" — this matches native browser
+behaviour but can surprise an SE mid-demo, so know it before you stand in
+front of a customer.
+
+The map on the request/confirmation pages is drawn from external CDNs
+(Leaflet and OpenStreetMap tiles). If either is unreachable it degrades to
+typed/plain coordinates, so the feature still demos on a locked-down network.
+
 ## Demo flow
 
 1. Open `http://localhost:8000/my-demo` in a browser for the customer-facing phone.

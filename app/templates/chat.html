@@ -82,8 +82,8 @@
           <h3>Location shared by the phone</h3>
           <div class="map-holder" id="settings-map"></div>
           <div class="field-row">
-            <label>Latitude<input type="number" step="any" name="latitude" required></label>
-            <label>Longitude<input type="number" step="any" name="longitude" required></label>
+            <label>Latitude<input type="number" step="any" name="latitude" min="-90" max="90" required></label>
+            <label>Longitude<input type="number" step="any" name="longitude" min="-180" max="180" required></label>
           </div>
           <div class="field-row">
             <label>Accuracy (m)<input type="number" step="any" min="0" name="accuracyM"></label>

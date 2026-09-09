@@ -141,6 +141,9 @@ def test_denied_report_is_readable_and_has_no_coordinates():
     body = client.get(f"/api/sessions/{session}/location").json()
     assert body["status"] == "denied"
     assert "latitude" not in body
+    assert "longitude" not in body
+    assert "accuracy_m" not in body
+    assert "label" not in body
     assert "shared_at" in body
 
 
@@ -168,6 +171,46 @@ def test_out_of_range_coordinates_are_rejected():
         "/loc-invalid/location",
         json={"status": "granted", "latitude": 0.0, "longitude": 181.0},
     )
+    negative_accuracy = client.post(
+        "/loc-invalid/location",
+        json={
+            "status": "granted",
+            "latitude": 51.4816,
+            "longitude": -2.5885,
+            "accuracy_m": -1,
+        },
+    )
 
     assert too_far_north.status_code == 422
     assert too_far_east.status_code == 422
+    assert negative_accuracy.status_code == 422
+
+
+def test_shared_location_never_appears_in_the_replies_stream():
+    client = TestClient(app)
+    session = "loc-replies"
+
+    # Put a real message in the session so the assertion below can't pass
+    # vacuously against an empty stream.
+    reply = client.post(f"/{session}/reply", data={"body": "On my way"})
+    assert reply.status_code == 200
+
+    post = client.post(
+        f"/{session}/location",
+        json={
+            "status": "granted",
+            "latitude": 51.4816,
+            "longitude": -2.5885,
+            "accuracy_m": 12,
+            "label": "M32 J2, Bristol",
+        },
+    )
+    assert post.status_code == 200
+
+    body = client.get(f"/api/sessions/{session}/replies?since=0").json()
+    assert len(body["messages"]) == 1
+    assert body["messages"][0]["body"] == "On my way"
+    for message in body["messages"]:
+        assert "latitude" not in message
+        assert "longitude" not in message
+        assert "M32 J2, Bristol" not in message["body"]

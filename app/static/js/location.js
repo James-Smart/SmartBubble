@@ -8,11 +8,12 @@ function sessionId() {
 
 async function report(payload) {
   try {
-    await fetch(`/${encodeURIComponent(sessionId())}/location`, {
+    const resp = await fetch(`/${encodeURIComponent(sessionId())}/location`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    if (!resp.ok) console.warn("Location report rejected", resp.status);
   } catch (_) {
     /* the demo page has already moved on; nothing useful to show here */
   }
