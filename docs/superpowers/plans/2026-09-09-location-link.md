@@ -566,14 +566,10 @@ with:
 
 - [ ] **Step 6: Write and run an end-to-end test for the rendered page**
 
-Append to `tests/test_linkify.py`:
+Add `from fastapi.testclient import TestClient` and `from app.main import app`
+to the imports at the **top** of `tests/test_linkify.py`, then append the test:
 
 ```python
-from fastapi.testclient import TestClient
-
-from app.main import app
-
-
 def test_message_page_renders_a_url_as_a_tappable_link():
     client = TestClient(app)
     session = "linkify-page"
@@ -614,20 +610,12 @@ land in a focused file rather than growing one 400-line blob.
 - Consumes: the existing theme-toggle behaviour in `app/static/js/app.js`.
 - Produces:
   - `initTheme(): void` — exported from `theme.js`
-  - `currentTheme(): "ios" | "android"` — exported from `theme.js`, used by
-    Task 7 to pick the permission-dialog copy
   - `document.body.dataset.sessionId` — the session id, read by Task 8
 
 - [ ] **Step 1: Create `app/static/js/theme.js`**
 
 ```js
 const STORAGE_KEY = "smartbubble-theme";
-
-export function currentTheme() {
-  return document.documentElement.getAttribute("data-theme") === "android"
-    ? "android"
-    : "ios";
-}
 
 export function initTheme() {
   const html = document.documentElement;
@@ -710,12 +698,13 @@ git commit -m "Split client JavaScript into ES modules"
 **Interfaces:**
 - Consumes: `document.body.dataset.sessionId` (Task 4).
 - Produces:
-  - `DEFAULTS` — the object of default settings
   - `loadSettings(): {latitude, longitude, accuracyM, label, company, headline, buttonText}`
-  - `saveSettings(values): void`
   - `initSettings(): void` — wires the ⚙ button and the sheet
+  - `setFormCoords(latitude, longitude): void` — used by Task 6
   - `onSettingsPanelOpen(handler)` / `onSettingsCoordsChange(handler)` hooks used
     by Task 6 to attach the map without `settings.js` importing Leaflet
+- Module-private (do not export): `DEFAULTS`, `saveSettings()`, and the form
+  helpers. Export only what another module imports.
 
 - [ ] **Step 1: Add the sheet markup**
 
@@ -779,7 +768,7 @@ the sheet:
 const STORAGE_KEY = "smartbubble-settings";
 
 // Ship a working demo with zero configuration.
-export const DEFAULTS = {
+const DEFAULTS = {
   latitude: 51.4816,
   longitude: -2.5885,
   accuracyM: 12,
@@ -810,7 +799,7 @@ export function loadSettings() {
   }
 }
 
-export function saveSettings(values) {
+function saveSettings(values) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
   } catch (_) {
@@ -1104,10 +1093,13 @@ git commit -m "Add settings sheet for the demo location and link page copy"
 - Consumes: `onSettingsPanelOpen`, `onSettingsCoordsChange`, `setFormCoords`
   from Task 5.
 - Produces:
-  - `mapAvailable(): boolean`
-  - `createPicker(element, {latitude, longitude}, onPick): {setCoords(lat, lng)} | null`
   - `createStaticMap(element, {latitude, longitude}): void` — used by Task 8
   - `initMapPicker(): void`
+- Module-private (do not export — nothing outside `map.js` imports them):
+  `mapAvailable()`, `createPicker(element, {latitude, longitude}, onPick)`
+
+Across every JS module in this plan: export only what another module imports;
+everything else stays module-private.
 
 - [ ] **Step 1: Load Leaflet**
 
@@ -1131,7 +1123,7 @@ const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 const TILE_ATTRIBUTION = "© OpenStreetMap";
 const UNAVAILABLE = "Map unavailable — type coordinates instead.";
 
-export function mapAvailable() {
+function mapAvailable() {
   return typeof window.L !== "undefined";
 }
 
@@ -1147,7 +1139,7 @@ function takeOver(element) {
   element.textContent = "";
 }
 
-export function createPicker(element, { latitude, longitude }, onPick) {
+function createPicker(element, { latitude, longitude }, onPick) {
   if (!mapAvailable()) {
     showUnavailable(element, UNAVAILABLE);
     return null;
@@ -1271,11 +1263,11 @@ git commit -m "Add map picker to the settings sheet"
   - `openBrowser(url: string): HTMLElement` — shows the overlay with the
     hostname parsed from `url`, and returns the empty content element for the
     caller to fill
-  - `closeBrowser(): void`
-  - `currentHost(): string` — the host currently shown in the chrome
   - `askPermission(): Promise<boolean>` — shows the prompt for the host already
     on screen; resolves `true` for allow, `false` for deny
   - `initBrowser(): void`
+- Module-private (do not export): `closeBrowser()`, `hostFromUrl()`,
+  `hidePermission()`. Export only what another module imports.
 
 - [ ] **Step 1: Add the overlay markup**
 
@@ -1341,18 +1333,13 @@ export function openBrowser(url) {
   });
   content.textContent = "";
   browser.classList.add("open");
-  browser.dataset.host = host;
   return content;
 }
 
-export function closeBrowser() {
+function closeBrowser() {
   const browser = document.getElementById("browser");
   browser.classList.remove("open");
   hidePermission(false);
-}
-
-export function currentHost() {
-  return document.getElementById("browser").dataset.host || "";
 }
 
 function hidePermission(answer) {
