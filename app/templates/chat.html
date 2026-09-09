@@ -34,14 +34,17 @@
         </div>
         <div class="session-row">
           <p class="session-label">Session: <code>{{ session_id }}</code></p>
-          <button
-            type="button"
-            class="clear-btn"
-            hx-post="/{{ session_id }}/clear"
-            hx-target="#messages"
-            hx-swap="outerHTML"
-            hx-confirm="Clear this conversation?"
-          >Clear</button>
+          <div class="session-actions">
+            <button type="button" class="settings-btn" id="settings-open" aria-label="Settings">⚙</button>
+            <button
+              type="button"
+              class="clear-btn"
+              hx-post="/{{ session_id }}/clear"
+              hx-target="#messages"
+              hx-swap="outerHTML"
+              hx-confirm="Clear this conversation?"
+            >Clear</button>
+          </div>
         </div>
       </header>
 
@@ -67,6 +70,36 @@
           <button type="submit" aria-label="Send">↑</button>
         </form>
       </footer>
+
+      <div class="sheet" id="settings-sheet" role="dialog" aria-label="Settings">
+        <div class="sheet-header">
+          <h2>Settings</h2>
+          <button type="button" class="sheet-close" id="settings-cancel">Cancel</button>
+        </div>
+        <form class="sheet-body" id="settings-form">
+          <h3>Location shared by the phone</h3>
+          <div class="map-holder" id="settings-map"></div>
+          <div class="field-row">
+            <label>Latitude<input type="number" step="any" name="latitude" required></label>
+            <label>Longitude<input type="number" step="any" name="longitude" required></label>
+          </div>
+          <div class="field-row">
+            <label>Accuracy (m)<input type="number" step="any" min="0" name="accuracyM"></label>
+            <label>Place label<input type="text" name="label" autocomplete="off"></label>
+          </div>
+          <button type="button" class="secondary-btn" id="settings-real-location">
+            Use my real location
+          </button>
+          <p class="field-note" id="settings-real-location-note"></p>
+
+          <h3>Link page</h3>
+          <label>Company<input type="text" name="company" autocomplete="off"></label>
+          <label>Headline<input type="text" name="headline" autocomplete="off"></label>
+          <label>Button text<input type="text" name="buttonText" autocomplete="off"></label>
+
+          <button type="submit" class="primary-btn">Save</button>
+        </form>
+      </div>
     </div>
   </div>
   <script type="module" src="/static/js/app.js"></script>
