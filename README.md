@@ -25,6 +25,7 @@ No login. The path segment is the session id, e.g. `/alice` and `/bob` are isola
 - **GET /{session_id}** — chat UI with HTMX polling every 1.5s
 - **POST /{session_id}/reply** — form field `body` simulates the user replying on the phone
 - **POST /{session_id}/clear** — empties this session's conversation (backs the header **Clear** button)
+- **POST /{session_id}/location** — the phone reporting the customer's answer to the location prompt (used by the UI, not by integrations)
 
 Toggle **iOS** / **Android** in the header; the choice is stored in `localStorage`.
 
@@ -77,6 +78,49 @@ Response:
 ```
 
 Pass `next_cursor` as `since` on the next poll. CORS is open for browser-based demos.
+
+### Location link
+
+Text the phone a link and the customer can "share" their location with you —
+the classic breakdown-company flow.
+
+The URL is **fake**: nothing resolves it, and the page it opens is simulated in
+the browser. Send an ordinary message with a URL in the body:
+
+```bash
+curl -X POST http://localhost:8000/api/sessions/alice/messages \
+  -H 'Content-Type: application/json' \
+  -d '{"body":"AA Assist: tap to share your location https://aa-assist.co.uk/loc/x7k2","from":"AA Assist"}'
+```
+
+Any `http(s)` URL in a body becomes tappable, and tapping it opens the simulated
+page. Set the coordinates it reports, and the page's wording, in the phone's ⚙
+**Settings** sheet beforehand — drop a pin on the map or type coordinates. The
+settings are stored in `localStorage` and shared by every session in that
+browser.
+
+Read the result back:
+
+```bash
+curl http://localhost:8000/api/sessions/alice/location
+```
+
+Always returns 200, in one of three shapes:
+
+```json
+{"status": "none"}
+```
+```json
+{"status": "granted", "latitude": 51.4816, "longitude": -2.5885,
+ "accuracy_m": 12, "label": "M32 J2, Bristol",
+ "shared_at": "2026-09-09T10:04:11+00:00"}
+```
+```json
+{"status": "denied", "shared_at": "2026-09-09T10:04:11+00:00"}
+```
+
+Only the latest share is kept, and the **Clear** button resets it to `none`.
+The `/replies` stream is unaffected — a shared location never appears there.
 
 ## Demo flow
 
