@@ -2,7 +2,11 @@
   id="messages"
   class="messages"
   hx-get="/{{ session_id }}/stream"
-  hx-trigger="load, every 1.5s"
+  {# No `load` here: this fragment replaces itself by outerHTML, and htmx fires
+     `load` on content it swaps in, so `load` would re-trigger the fetch at once
+     and churn the list continuously. The initial render is inlined by
+     chat.html, so there is nothing to fetch on load anyway. #}
+  hx-trigger="every 1.5s"
   hx-swap="outerHTML"
 >
   {% if messages %}

@@ -50,15 +50,10 @@
         </div>
       </header>
 
-      <div
-        id="messages"
-        class="messages"
-        hx-get="/{{ session_id }}/stream"
-        hx-trigger="load, every 1.5s"
-        hx-swap="outerHTML"
-      >
-        {% include "_messages.html" %}
-      </div>
+      {# The partial carries the #messages container and its own polling
+         attributes, because /stream, /reply and /clear all swap it by
+         outerHTML. Wrapping it here too would put two pollers on one id. #}
+      {% include "_messages.html" %}
 
       <footer class="phone-footer">
         <form

@@ -115,6 +115,31 @@ function openLocationPage(url) {
   renderRequestPage(content, settings, share);
 }
 
+// A poll swap replaces the whole message list. If one lands between mousedown
+// and mouseup, the anchor the user pressed is gone by the time they release,
+// so the browser fires no click at all and the tap is silently lost. Holding
+// the swap while a pointer is down costs at most one 1.5s poll and closes that
+// race; the list is redrawn on the following poll either way.
+function holdSwapsWhilePointerIsDown() {
+  let pointerDownAt = 0;
+
+  document.addEventListener("pointerdown", () => {
+    pointerDownAt = Date.now();
+  });
+  document.addEventListener("pointerup", () => {
+    pointerDownAt = 0;
+  });
+
+  document.body.addEventListener("htmx:beforeSwap", (event) => {
+    // Time-limited on purpose: if a pointerup is ever missed — released off
+    // the window, or a touch gesture cancelled — the hold lapses by itself
+    // rather than freezing the conversation permanently.
+    if (pointerDownAt && Date.now() - pointerDownAt < 1000) {
+      event.preventDefault();
+    }
+  });
+}
+
 export function initLocationLinks() {
   // Delegated from the document: HTMX replaces #messages every 1.5s, so a
   // listener bound to the links themselves would not survive a single poll.
@@ -125,4 +150,6 @@ export function initLocationLinks() {
     event.preventDefault();
     openLocationPage(link.dataset.url || "");
   });
+
+  holdSwapsWhilePointerIsDown();
 }
